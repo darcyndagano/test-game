@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasika Nziza</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Écran de menu Principal -->
+    <div id="screen-menu" class="screen active">
+        <div id="instructions" onclick="this.classList.toggle('open')">
+            <h4>Comment jouer ?</h4>
+            <div class="instructions-content">
+                <p>Clique sur les oeufs pour marquer des points !</p>
+                <p>🍫 Chocolat = +1 pt</p>
+                <p>🌟 Oeuf doré = +5 pts</p>
+                <p>🐔 Poule = -2 pts</p>
+                <p>Rate un oeuf ou clique dans le vide = Game Over !</p>
+            </div>
+        </div>
+        
+        <img src="assets/title.png" alt="PutaClic - Spécial Pâques" class="title-logo">
+
+        <div class="menu-buttons">
+            <button data-difficulty="easy">Petit poussin <img src="assets/shield-easy.png" alt="bouclier" class="btn-icon"></button>
+            <button data-difficulty="medium">Lapin malin <img src="assets/swords-medium.png" alt="épées" class="btn-icon"></button>
+            <button data-difficulty="hard">Chasseur d'oeufs <img src="assets/skull-hard.png" alt="crâne" class="btn-icon"></button>
+        </div>
+
+        <div id="high-scores">
+            <h3>Tes meilleurs scores</h3>
+            <p>Petit poussin : <span id="high-easy">0</span></p>
+            <p>Lapin malin : <span id="high-medium">0</span></p>
+            <p>Chasseur d'oeufs : <span id="high-hard">0</span></p>
+        </div>
+    </div>
+
+    <!-- Écran de Jeu -->
+    <div id="screen-game" class="screen">
+        <div id="hud">
+            <span>Score : <span id="score">0</span></span>
+            <div id="combo"></div> <!-- Élément ajouté pour le combo -->
+            <span>Temps : <span id="timer">0</span>s</span>
+            <div id="timer-bar"></div> <!-- Élément ajouté pour la barre de temps -->
+        </div>
+        <div id="game-area"></div>
+    </div>
+
+    <!-- Écran de Fin de Partie -->
+    <div id="screen-gameover" class="screen">
+        <h1>Fin de partie !</h1>
+        <div id="end-stats"></div> <!-- Élément ajouté pour les statistiques de fin -->
+        <p>Ton score : <span id="final-score">0</span></p>
+        <p id="new-record" style="display: none;">Nouveau record !</p>
+        <button id="btn-replay">Rejouer</button>
+        <button id="btn-menu">Menu</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

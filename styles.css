@@ -1,0 +1,650 @@
+:root {
+    --color-bg: #14120f;
+    --color-text: #ede7dc;
+    --color-accent: #d4943a;
+    --font-heading: 'VT323', monospace;
+    --font-text: 'Orbitron', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-text);
+    background: var(--color-bg);
+    height: 100vh;
+    overflow: hidden;
+    color: var(--color-text);
+}
+
+.screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 10vh;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    gap: 20px;
+}
+
+.screen.active {
+    display: flex;
+}
+
+#screen-menu {
+    position: relative;
+    overflow: hidden;
+}
+
+#screen-menu::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('assets/bg-castle.jpg') center/103% no-repeat;
+    filter: blur(3px);
+    transform: scale(1.05);
+    z-index: -1;
+}
+
+.title-logo {
+    width: clamp(300px, 50vw, 600px);
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.5));
+}
+
+
+#instructions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background:
+        url('assets/cracks.png') center/cover no-repeat,
+        linear-gradient(170deg, #3a3632 0%, #2a2725 40%, #1f1d1b 100%);
+    border: 2px solid #4a4540;
+    color: var(--color-text);
+    font-family: 'MedievalSharp', cursive;
+    padding: 14px 20px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 0.75rem;
+    line-height: 1.8;
+    cursor: pointer;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+#instructions h4 {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 0.8rem;
+    color: var(--color-accent);
+}
+
+.instructions-content {
+    display: none;
+    margin-top: 8px;
+}
+
+#instructions.open .instructions-content {
+    display: block;
+}
+
+#hud {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 28px;
+    background: rgba(20, 18, 15, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.6rem;
+    color: var(--color-accent);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    border-radius: 0 0 14px 14px;
+    z-index: 10;
+    text-shadow: 0 0 10px rgba(212, 148, 58, 0.5), 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+#screen-game {
+    padding-top: 0;
+}
+
+#game-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: url('assets/bg-castle.jpg') center/103% no-repeat;
+}
+
+.game-object {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    user-select: none;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+}
+
+button {
+    padding: 18px 32px;
+    font-size: 1.1rem;
+    font-family: var(--font-text);
+    border: 1px solid rgba(237, 231, 220, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    background: rgba(20, 18, 15, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--color-text);
+    transition: all 0.25s ease;
+}
+
+button:hover {
+    transform: scale(1.03);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: 0 6px 18px rgba(212, 148, 58, 0.2);
+}
+
+.menu-buttons button:hover {
+    background:
+        url('assets/cracks.png') center/cover no-repeat,
+        linear-gradient(170deg, #45403b 0%, #332f2c 40%, #262321 100%);
+    border-color: #5a5550;
+    color: #e0c080;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.08),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.menu-buttons button {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 420px;
+    font-family: 'MedievalSharp', cursive;
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 0.05em;
+    color: #c4a46a;
+    background:
+        url('assets/cracks.png') center/cover no-repeat,
+        linear-gradient(170deg, #3a3632 0%, #2a2725 40%, #1f1d1b 100%);
+    border: 2px solid #4a4540;
+    border-radius: 8px;
+    text-shadow:
+        0 -1px 1px rgba(0, 0, 0, 0.8),
+        0 1px 1px rgba(200, 170, 110, 0.2);
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: hidden;
+}
+
+.menu-buttons button::before,
+.menu-buttons button::after {
+    content: "⚜";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    color: rgba(140, 115, 75, 0.45);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+.menu-buttons button::before {
+    left: 10px;
+}
+
+.menu-buttons button::after {
+    right: 10px;
+    transform: translateY(-50%) scaleX(-1);
+}
+
+.btn-icon {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin: -14px 0;
+}
+
+#screen-gameover {
+    position: relative;
+    overflow: hidden;
+    gap: 24px;
+    justify-content: center;
+}
+
+#screen-gameover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('assets/bg-castle.jpg') center/103% no-repeat;
+    filter: blur(3px);
+    transform: scale(1.05);
+    z-index: -1;
+}
+
+#screen-gameover h1 {
+    font-family: 'MedievalSharp', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--color-accent);
+    background:
+        url('assets/cracks.png') center/cover no-repeat,
+        linear-gradient(170deg, #3a3632 0%, #2a2725 40%, #1f1d1b 100%);
+    border: 2px solid #4a4540;
+    border-radius: 8px;
+    padding: 16px 40px;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+    text-shadow:
+        0 -1px 1px rgba(0, 0, 0, 0.8),
+        0 1px 1px rgba(200, 170, 110, 0.2);
+}
+
+#screen-gameover p {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.15rem;
+    background:
+        url('assets/cracks.png') center/cover no-repeat,
+        linear-gradient(170deg, #3a3632 0%, #2a2725 40%, #1f1d1b 100%);
+    border: 2px solid #4a4540;
+    border-radius: 8px;
+    padding: 12px 30px;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+#screen-gameover button {
+    font-family: 'MedievalSharp', cursive;
+    background:
+        url('assets/cracks.png') center/cover no-repeat,
+        linear-gradient(170deg, #3a3632 0%, #2a2725 40%, #1f1d1b 100%);
+    border: 2px solid #4a4540;
+    color: #c4a46a;
+    margin-top: 8px;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+    text-shadow:
+        0 -1px 1px rgba(0, 0, 0, 0.8),
+        0 1px 1px rgba(200, 170, 110, 0.2);
+}
+
+#high-scores {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    text-align: left;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    background:
+        url('assets/cracks.png') center/cover no-repeat,
+        linear-gradient(170deg, #3a3632 0%, #2a2725 40%, #1f1d1b 100%);
+    border: 2px solid #4a4540;
+    border-radius: 8px;
+    padding: 14px 20px;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+#high-scores h3 {
+    font-family: 'MedievalSharp', cursive;
+    color: var(--color-accent);
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+#new-record {
+    font-family: 'MedievalSharp', cursive;
+    color: var(--color-accent);
+    font-size: 1.8rem;
+    text-shadow: 0 0 20px rgba(212, 148, 58, 0.5);
+}
+
+.particle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100;
+    animation: particle-burst 0.6s ease-out forwards;
+}
+
+@keyframes particle-burst {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+.floating-score {
+    position: fixed;
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    pointer-events: none;
+    z-index: 100;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    transform: translate(-50%, -50%);
+    animation: float-up 1s ease-out forwards;
+}
+
+.floating-score.golden {
+    font-size: 4rem;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4);
+}
+
+.floating-score.negative {
+    color: #ff3333;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+@keyframes float-up {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+    20% { transform: translate(-50%, -50%) scale(1.4); }
+    100% { opacity: 0; transform: translate(-50%, -200%) scale(1); }
+}
+
+.red-flash {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.4), rgba(255, 0, 0, 0.15));
+    pointer-events: none;
+    z-index: 50;
+    animation: flash-red 0.5s ease-out forwards;
+}
+
+@keyframes flash-red {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .screen {
+        padding-top: 0;
+        gap: 0;
+    }
+
+    #screen-menu {
+        justify-content: space-evenly;
+    }
+
+    #screen-menu::before {
+        background: url('assets/bg-castle-mobile.png') center/cover no-repeat;
+    }
+
+    .title-logo {
+        width: clamp(200px, 70vw, 400px);
+        margin-top: 12vh;
+    }
+
+    .menu-buttons {
+        margin-top: -8vh;
+    }
+
+    #instructions {
+        top: 10px;
+        right: 10px;
+        padding: 10px 14px;
+        font-size: 0.65rem;
+        max-width: 45vw;
+    }
+
+    #high-scores {
+        position: relative;
+        top: auto;
+        left: auto;
+        text-align: center;
+        width: 85vw;
+        max-width: 420px;
+        font-size: 0.8rem;
+    }
+
+    .menu-buttons button {
+        width: 85vw;
+        max-width: 420px;
+        font-size: 1rem;
+        padding: 14px 24px;
+    }
+
+    .menu-buttons button::before,
+    .menu-buttons button::after {
+        font-size: 1.1rem;
+    }
+
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        margin: -10px 0;
+    }
+
+    #hud {
+        padding: 10px 18px;
+        font-size: 1.2rem;
+    }
+
+    #game-area {
+        background: url('assets/bg-castle-mobile.png') center/cover no-repeat;
+    }
+
+    .game-object {
+        width: 150px;
+        height: 150px;
+    }
+
+    .floating-score {
+        font-size: 2rem;
+    }
+
+    .floating-score.golden {
+        font-size: 2.5rem;
+    }
+
+    #screen-gameover {
+        justify-content: center;
+    }
+
+    #screen-gameover::before {
+        background: url('assets/bg-castle-mobile.png') center/cover no-repeat;
+    }
+
+    #screen-gameover h1 {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        padding: 12px 24px;
+    }
+
+    #screen-gameover p {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    #screen-gameover button {
+        padding: 14px 24px;
+        font-size: 1rem;
+    }
+
+    #new-record {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .screen {
+        padding-top: 3vh;
+        gap: 10px;
+    }
+
+    .title-logo {
+        width: 85vw;
+    }
+
+    .menu-buttons button {
+        width: 90vw;
+        font-size: 0.9rem;
+        padding: 12px 18px;
+    }
+
+    .btn-icon {
+        width: 34px;
+        height: 34px;
+        margin: -8px 0;
+    }
+
+    #instructions {
+        max-width: 55vw;
+        font-size: 0.6rem;
+    }
+
+    .game-object {
+        width: 110px;
+        height: 110px;
+    }
+
+    #hud {
+        padding: 8px 14px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Added Game Styles --- */
+
+#timer-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+    transition: width 0.2s linear, background 0.3s ease;
+    z-index: 10;
+}
+
+#timer-bar.danger {
+    background: #ff3333;
+    box-shadow: 0 0 15px #ff3333;
+    animation: flash-danger 0.5s infinite alternate;
+}
+
+@keyframes flash-danger {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
+
+#combo {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'VT323', monospace;
+    font-size: 2.5rem;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+    white-space: nowrap;
+}
+
+#combo.active {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.2);
+    animation: combo-pulse 0.4s infinite alternate;
+}
+
+@keyframes combo-pulse {
+    from { transform: translateX(-50%) scale(1.15); }
+    to { transform: translateX(-50%) scale(1.3); }
+}
+
+#end-stats {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    margin: 10px 0;
+    opacity: 0.9;
+}
+
+#end-stats b {
+    color: var(--color-accent);
+}
+
+.powerup-banner {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(212, 148, 58, 0.2);
+    border: 2px solid var(--color-accent);
+    backdrop-filter: blur(10px);
+    padding: 15px 40px;
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.5rem;
+    z-index: 1000;
+    pointer-events: none;
+    animation: powerup-pop 2s ease-out forwards;
+}
+
+@keyframes powerup-pop {
+    0% { transform: translate(-50%, -60%) scale(0.5); opacity: 0; }
+    15% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    25% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    85% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -40%) scale(1); opacity: 0; }
+}
+
+.shake-up { animation: shake-up 0.3s ease-out; }
+@keyframes shake-up {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-10px) scale(1.2); }
+    50% { transform: translateY(5px); }
+    100% { transform: translateY(0); }
+}
+
+/* Animations for score display */
+.shake { animation: shake 0.4s ease-in-out; }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-2deg); }
+    75% { transform: translateX(5px) rotate(2deg); }
+}
